@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, button, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Event Management</h1>
+
+    <div>
+        <h2>Add Event</h2>
+        <div class="form-group">
+            <form id="addEventForm">
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required />
+                <br />
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required />
+                <br />
+                <label for="eventLocal">Event Location:</label>
+                <input type="text" id="eventLocal" name="eventLocal" required />
+                <br />
+                <button type="button" onclick="addEvent()">Add Event</button>
+              </form>
+      </div>
+
+      <div>
+        <h2>Add Participant</h2>
+        <div class="form-group">
+            <form id="addParticipantForm">
+                <label for="participantName">Participant Name:</label>
+                <input type="text" id="participantName" name="participantName" required />
+                <br />
+                <label for="participantEmail">Email:</label>
+                <input type="text" id="participantEmail" name="participantEmail" required />
+                <br />
+                <label for="participantAge">Age:</label>
+                <input type="number" id="participantAge" name="participantAge" required />
+                <br />
+                <button type="button" onclick="addParticipant()">Add Partticipant</button>
+              </form>
+      </div>
+
+      </div>
+        <h2>Participants List</h2>
+        <button onclick="fetchParticipants()">Load Participants</button>
+            <table id="participantsTable" >
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os participantes serão adicionados aqui dinamicamente -->
+                </tbody>
+            </table>
+    </div>
+  
+
+    <div>
+      <h2>List Events</h2>
+      <button onclick="listEvents()">Get Events</button>
+      <table id="eventsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Participants</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div>
+      <h2>Get Event by Name</h2>
+      <div class="form-group">
+        <label for="searchEventName">Event Name</label>
+        <input type="text" id="searchEventName" placeholder="Enter event name">
+      </div>
+      <button onclick="getEventByName()">Search Event</button>
+      <div id="eventDetails"></div>
+    </div>
+  </div>
+
+  <script>
+    const apiUrl = 'http://localhost:8080'; // Substitua pela URL da sua API
+
+    async function listEvents() {
+      const response = await fetch(`${apiUrl}/events`);
+      const events = await response.json();
+      const tableBody = document.querySelector('#eventsTable tbody');
+      tableBody.innerHTML = '';
+      events.forEach(event => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${event.id}</td>
+          <td>${event.name}</td>
+          <td>${event.participants.length}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    async function getEventByName() {
+      const name = document.getElementById('searchEventName').value;
+      const response = await fetch(`${apiUrl}/events/${name}`);
+      const event = await response.json();
+
+      const eventDetails = document.getElementById('eventDetails');
+      eventDetails.innerHTML = `
+        <h3>Event Details</h3>
+        <p><strong>ID:</strong> ${event.id}</p>
+        <p><strong>Name:</strong> ${event.name}</p>
+        <p><strong>Participants:</strong></p>
+        <ul>
+          ${event.participants.map(participant => `<li>${participant.name}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    async function addEvent() {
+        const eventName = document.getElementById('eventName').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const eventLocal = document.getElementById('eventLocal').value;
+
+        const eventRequestDto = {
+            name: eventName,
+            date: eventDate,
+            local: eventLocal,
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(eventRequestDto),
+    });
+
+    if (response.ok) {
+      const newEvent = await response.json();
+      alert(`Event "${newEvent.name}" added successfully!`);
+      // Opcional: Atualize a lista de eventos na página
+      listEvents();
+    } else {
+      alert('Failed to add event. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error adding event:', error);
+    alert('An error occurred while adding the event.');
+  }
+}
+
+async function addParticipant() {
+  const participantName = document.getElementById('participantName').value;
+  const participantEmail = document.getElementById('participantEmail').value;
+  const participantAge = document.getElementById('participantAge').value;
+
+  const participantRequestDto = {
+    name: participantName,
+    email: participantEmail,
+    age: parseInt(participantAge, 10),
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}/participant`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(participantRequestDto),
+    });
+
+    if (response.ok) {
+      const newParticipant = await response.json();
+      alert(`Participant "${newParticipant.name}" added successfully!`);
+      // Opcional: Atualize a lista de participantes na página, se necessário
+    } else {
+      alert('Failed to add participant. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error adding participant:', error);
+    alert('An error occurred while adding the participant.');
+  }
+}
+
+async function fetchParticipants() {
+  try {
+    const response = await fetch(`${apiUrl}/participant`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const participants = await response.json();
+      populateParticipantsTable(participants);
+    } else {
+      alert('Failed to fetch participants. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error fetching participants:', error);
+    alert('An error occurred while fetching the participants.');
+  }
+}
+
+function populateParticipantsTable(participants) {
+  const tableBody = document.getElementById('participantsTable').querySelector('tbody');
+  tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar os dados
+
+  participants.forEach((participant) => {
+    const row = document.createElement('tr');
+
+    const nameCell = document.createElement('td');
+    nameCell.textContent = participant.name;
+    row.appendChild(nameCell);
+
+    const emailCell = document.createElement('td');
+    emailCell.textContent = participant.email;
+    row.appendChild(emailCell);
+
+    const ageCell = document.createElement('td');
+    ageCell.textContent = participant.age;
+    row.appendChild(ageCell);
+
+    tableBody.appendChild(row);
+  });
+}
+  </script>
+</body>
+</html>
