@@ -1,7 +1,8 @@
 # Frontend para Sistema de Gerenciamento de Eventos
 
 Este é o frontend para um sistema de gerenciamento de eventos, construído utilizando HTML, CSS e JavaScript.
-Ele interage com um backend Java para fornecer funcionalidades como adicionar eventos, listar eventos, adicionar participantes, etc.
+Ele interage com a Api Java [event-system](https://github.com/uaianaluiza/event-system)
+para fornecer funcionalidades como adicionar eventos, listar eventos, adicionar participantes, etc.
 
 ## Visão Geral
 
@@ -36,7 +37,7 @@ Este frontend oferece uma interface de usuário para as seguintes funcionalidade
 
 ## Configuração do Backend
 
-Este frontend foi desenvolvido para interagir com um backend Java que expõe as seguintes APIs:
+Este frontend foi desenvolvido para interagir com a API [event-system](https://github.com/uaianaluiza/event-system) que expõe os seguintes endpoints:
 
 * **`POST /events/v2`:** Adiciona um novo evento. Espera um corpo JSON com os campos: `name`, `date`, `cep`, `numero`, `complemento`.
 * **`GET /events/v2`:** Lista todos os eventos.
@@ -53,6 +54,6 @@ Este frontend foi desenvolvido para interagir com um backend Java que expõe as 
 
 ## Estrutura de Arquivos
 
-├── index.html      # Arquivo HTML principal
-├── styles.css      # Arquivo de estilos CSS
-└── script.js       # Arquivo com a lógica JavaScript
+- index.html -> Arquivo HTML principal
+- styles.css -> Arquivo de estilos CSS
+- script.js  -> Arquivo com a lógica JavaScript
