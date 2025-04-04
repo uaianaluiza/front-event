@@ -1,0 +1,174 @@
+/* Estilos Gerais */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.6; /* Melhora a legibilidade do texto */
+    background-color: #f8f9fa; /* Um fundo levemente acinzentado */
+    color: #333; /* Cor de texto padrão */
+}
+
+.container {
+    max-width: 800px; /* Aumentei um pouco a largura máxima */
+    margin: 30px auto; /* Adicionei um pouco mais de margem superior e inferior */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px; /* Bordas arredondadas para o container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Uma leve sombra para destacar o container */
+}
+
+/* Estilos para Títulos */
+h1,
+h2 {
+    color: #007bff; /* Cor primária para os títulos */
+    margin-bottom: 20px;
+    text-align: center; /* Centralizei os títulos */
+}
+
+h2 {
+    margin-top: 25px;
+    font-size: 1.5em;
+}
+
+/* Estilos para Formulários */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold; /* Labels em negrito para melhor destaque */
+    color: #555;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+    width: calc(100% - 22px); /* Considera o padding na largura */
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Para botões lado a lado funcionarem bem */
+    margin-right: 10px; /* Adicionei um pouco de margem entre os botões */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    background-color: #003f80;
+}
+
+/* Estilos para Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    border: 1px solid #ddd; /* Borda externa da tabela */
+    border-radius: 4px; /* Bordas arredondadas para a tabela */
+    overflow: hidden; /* Para que o border-radius funcione corretamente com as bordas internas */
+}
+
+thead th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+tbody td,
+tbody th {
+    border-bottom: 1px solid #eee;
+    padding: 10px 8px;
+    text-align: left;
+}
+
+tbody tr:last-child td,
+tbody tr:last-child th {
+    border-bottom: none; /* Remove a borda da última linha */
+}
+
+/* Estilos para Elementos Ocultos */
+.hidden {
+    display: none;
+}
+
+/* Estilos Adicionais para o Formulário de Edição */
+.edit-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+    background-color: #f9f9f9; /* Um fundo leve para o formulário de edição */
+}
+
+.edit-form h3 {
+    color: #28a745; /* Cor de destaque para o título do formulário de edição */
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: left; /* Alinhei o título à esquerda dentro do form */
+}
+
+/* Estilos para Mensagens (opcional) */
+#eventDetails,
+#editEventMessage,
+#addParticipantToEventMessage,
+#removeParticipantFromEventMessage,
+#deleteEventMessage {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fefefe;
+}
+
+#eventDetails h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+#editEventMessage.success {
+    background-color: #e6ffe6;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+#editEventMessage.error {
+    background-color: #fdecea;
+    border-color: #fcc2c3;
+    color: #721c24;
+}
